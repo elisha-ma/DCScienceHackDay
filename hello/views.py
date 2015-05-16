@@ -1,18 +1,29 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-
-from .models import Greeting
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
+from django.template import RequestContext, loader
+from django.core.urlresolvers import reverse
+from .models import StarData
 
 import requests
 import os
 
 # Create your views here.
 def index(request):
-#    r = requests.get('http://httpbin.org/status/418')
-#    print r.text
-#    return HttpResponse('<pre>' + r.text + '</pre>')
-    times = int(os.environ.get('TIMES', 3))
-    return HttpResponse('GoodBye! ' * times)   
+    template = loader.get_template('stars.html')
+    context = RequestContext(request,{})
+    return HttpResponse(template.render(context))
+
+def input(request):
+    ra1 = request.POST(['ra1'])
+    dec1 = request.POST(['dec1'])
+    dist = request.POST(['dist'])
+    ra2 = request.POST(['ra2'])
+    dec2 = request.POST(['dec2'])    
+  
+    return HttpResponseRedirect(reverse('hello:result', args=(ra1, dec1, dist, ra2, dec2,)))
+
+def result(request, ra1, dec1, dist, ra2, dec2):
+    return render(request, 'hello/result.html', {'ra1':ra1, 'dec1':dec1, 'dist':dist, 'ra2':ra2, 'dec2':dec2})
 
 def db(request):
 
@@ -22,4 +33,3 @@ def db(request):
     greetings = Greeting.objects.all()
 
     return render(request, 'db.html', {'greetings': greetings})
-
