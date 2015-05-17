@@ -21,7 +21,7 @@ class Stars(models.Model):
     distance = models.FloatField(blank=True, null=True)
     mag = models.FloatField(blank=True, null=True)
     absmag = models.FloatField(blank=True, null=True)
-
+    constellation = models.CharField(max_length=16, blank=True, null=True)
     class Meta:
         managed = False
         db_table = 'stars'
