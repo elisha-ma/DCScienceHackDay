@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.core.urlresolvers import reverse
 from operator import itemgetter
-from .models import Stars
+#from .models import Stars
 
 import requests
 import os
@@ -47,8 +47,8 @@ def __get_constellations():
 
 def adjust_for_image(star_disp):
     visible_flux = .01
-    visible_rgb = 30
-    return [[x[0] * 256 + 256, 256 - x[1] * 256, scipy.int8(scipy.minimum(x[2]/visible_flux*visible_rgb,255)) ] for x in star_disp]
+    visible_rgb = 10
+    return [[x[0] * 256 + 256, 256 - x[1] * 256, int(scipy.minimum(x[2]/visible_flux*visible_rgb,255)) ] for x in star_disp]
 
 def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list):
     phi_view = 45 * scipy.pi / 180
@@ -74,7 +74,7 @@ def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list):
             xdisp = rdisp*scipy.cos(thetadisp)
             ydisp = rdisp*scipy.sin(thetadisp)
             bright = scipy.power(10,star_list[ind][3]/-2.5)*scipy.power(star_list[ind][0],2)/scipy.power(star_sphere[ind][0],2)
-            print {bright}
+            #print bright
             if bright>.01:
                 star_disp.append([xdisp, ydisp, bright])
     
