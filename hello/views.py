@@ -23,9 +23,9 @@ def input(request):
     dec2 = float(request.POST.get('dec2')) * scipy.pi / 180
     tilt = float(request.POST.get('tilt')) * scipy.pi / 180
     
-    #star_list = __get_database()
+    star_list = __get_database()
     
-    star_disp = calc_view(ra1,dec1,dist,ra2,dec2,tilt,[[1,2,3,0]])
+    star_disp = calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list)
     coordinates_list = adjust_for_image(star_disp)
     
     #coordinates_list = [(0, 0), (50, 50), (100, 100)]
