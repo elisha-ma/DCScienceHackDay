@@ -79,34 +79,34 @@ def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list, in_const):
     star_cart = [yrotate(dec2)*x for x in star_cart]
     star_cart = [xrotate(tilt)*x for x in star_cart]
     #star_cart = [yrotate(-scipy.pi/2)*x for x in star_cart]
-    print star_cart
+    #print star_cart
     
     star_sphere = [cart2sphere(x.item(0),x.item(1),x.item(2)) for x in star_cart]  # transform back to spherical
-    print star_sphere
+    #print star_sphere
     
     star_disp = [];
     for ind in range(len(star_list)):
-        phi = scipy.arcsin(star_cart[ind].item(0)/star_sphere[ind][0][0])
-        print "PHI: " + phi
-        if phi > (90 * scipy.pi / 180 - phi_view):
-            rdisp = (90 * scipy.pi / 180 - phi)/phi_view
-            thetadisp = scipy.arctan2(star_cart[ind][2],star_cart[ind][1])
-            xdisp = rdisp*scipy.cos(thetadisp)
-            ydisp = rdisp*scipy.sin(thetadisp)
-            bright = scipy.power(10,star_list[ind][3]/-2.5)*scipy.power(star_list[ind][0],2)/scipy.power(star_sphere[ind][0],2)
-        #    #print bright
-            if bright>.01 or in_const:
-                star_disp.append([xdisp, ydisp, bright])
-        
-        #if star_sphere[ind][2] > (90 * scipy.pi / 180 - phi_view):
-        #    rdisp = (90 * scipy.pi / 180 - star_sphere[ind][2])/phi_view
-        #    thetadisp = star_sphere[ind][1]
+        #phi = scipy.arcsin(star_cart[ind].item(0)/star_sphere[ind][0][0])
+        #print "PHI: " + phi
+        #if phi > (90 * scipy.pi / 180 - phi_view):
+        #    rdisp = (90 * scipy.pi / 180 - phi)/phi_view
+        #    thetadisp = scipy.arctan2(star_cart[ind][2],star_cart[ind][1])
         #    xdisp = rdisp*scipy.cos(thetadisp)
         #    ydisp = rdisp*scipy.sin(thetadisp)
         #    bright = scipy.power(10,star_list[ind][3]/-2.5)*scipy.power(star_list[ind][0],2)/scipy.power(star_sphere[ind][0],2)
         #    #print bright
         #    if bright>.01 or in_const:
         #        star_disp.append([xdisp, ydisp, bright])
+        
+        if star_sphere[ind][2] > (90 * scipy.pi / 180 - phi_view):
+            rdisp = (90 * scipy.pi / 180 - star_sphere[ind][2])/phi_view
+            thetadisp = star_sphere[ind][1]
+            xdisp = rdisp*scipy.cos(thetadisp)
+            ydisp = rdisp*scipy.sin(thetadisp)
+            bright = scipy.power(10,star_list[ind][3]/-2.5)*scipy.power(star_list[ind][0],2)/scipy.power(star_sphere[ind][0],2)
+            #print bright
+            if bright>.01 or in_const:
+                star_disp.append([xdisp, ydisp, bright])
     
     return star_disp
         
