@@ -61,12 +61,12 @@ def adjust_for_image(star_disp, in_const):
     visible_flux = .01
     visible_rgb = 10
     if (in_const):
-        return [[x[0] * 256 + 256, 256 - x[1] * 256, int(scipy.maximum(scipy.minimum(x[2]/visible_flux*visible_rgb,255), 200)) ] for x in star_disp]
+        return [[x[0] * 256 + 256, 256 - x[1] * 256, int(scipy.maximum(scipy.minimum(x[2]/visible_flux*visible_rgb,255), 30)) ] for x in star_disp]
 
     return [[x[0] * 256 + 256, 256 - x[1] * 256, int(scipy.minimum(x[2]/visible_flux*visible_rgb,255)) ] for x in star_disp]
 
 def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list, in_const):
-    phi_view = 45 * scipy.pi / 180
+    phi_view = 60 * scipy.pi / 180
     
     [xshift,yshift,zshift] = sphere2cart(dist,ra1,dec1)     # calculate cartesian shift
     star_cart = [sphere2cart(x[2],x[0],x[1]) for x in star_list]    # calculate star cartesian from spherical
