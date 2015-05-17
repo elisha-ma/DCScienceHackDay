@@ -29,6 +29,7 @@ def input(request):
 
     star_list = __get_stars()
     stars_in_const = __get_stars_in_constellation(const)
+    print stars_in_const
     
     # Get Image info for all stars within view
     star_disp = calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list, False)
