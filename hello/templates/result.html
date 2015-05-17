@@ -1,7 +1,14 @@
-<h1>Result!</h1>
+<form name="form" action="{% url 'index' %}" method="post">
+    {% csrf_token %}
+
+    <h1>Result!</h1>
     <svg width="512" height="512">
         <rect width="512" height="512" style="fill:rgb(0,0,0);stroke-width:3;stroke:rgb(0,0,0)"/>
         {% for tuple in coordinates_list %}
             <circle cx="{{ tuple.0 }}" cy="{{ tuple.1}} " r="2" style="fill:rgb({{ tuple.2}}, {{ tuple.2}}, {{tuple.2}});" />
         {% endfor %}
-    </svg> 
+    </svg>
+    <div>
+        <input type="submit" value="Again!"/>
+    </div>
+</form> 
