@@ -26,14 +26,12 @@ def input(request):
     dec2 = float(request.POST.get('dec2', 0)) * scipy.pi / 180
     tilt = float(request.POST.get('tilt', 0)) * scipy.pi / 180
     const = request.POST.get('constellation')
-    
-    print ra1
-    print ra2
-    print dist
+
     print const
     
     star_list = __get_stars()
     stars_in_const = __get_stars_in_constellation(const)
+    print stars_in_const
     
     star_disp = calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list)
     coordinates_list = adjust_for_image(star_disp)
@@ -43,6 +41,7 @@ def input(request):
     coordinates_list = sorted(coordinates_list, key=itemgetter(2)) 
     context = {"coordinates_list":coordinates_list}
     return render(request, 'result.html', context)
+
 def __get_stars_in_constellation(const_filt):
     stars = Stars.objects.filter(constellation=const_filt)
     return [[star.ra, star.dec, star.distance, star.absmag] for star in stars]
