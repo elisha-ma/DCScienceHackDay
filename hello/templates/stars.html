@@ -31,7 +31,7 @@
         <select name="constellation" id="constellation">
             <option selected disabled hidden value=''></option>
             {% for constellation in constellations %}
-            <option value="{{ constellation }}">{{ constellation }}</option>
+            <option id="{{ constellation }}" value="{{ constellation }}">{{ constellation }}</option>
             {% endfor %}
         </select>
     </div>
