@@ -79,8 +79,10 @@ def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list, in_const):
     star_cart = [yrotate(dec2)*x for x in star_cart]
     star_cart = [xrotate(tilt)*x for x in star_cart]
     #star_cart = [yrotate(-scipy.pi/2)*x for x in star_cart]
+    print star_cart
     
     star_sphere = [cart2sphere(x.item(0),x.item(1),x.item(2)) for x in star_cart]  # transform back to spherical
+    print star_sphere
     
     star_disp = [];
     for ind in range(len(star_list)):
