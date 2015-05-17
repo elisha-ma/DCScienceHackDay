@@ -5,7 +5,7 @@ gunicorn==19.3.0
 psycopg2==2.6
 requests==2.3.0
 SQLAlchemy==1.0.4
-scipy==0.15.1
-numpy==1.9.2
+scipy==0.14.0
+numpy==1.8.1
 virtualenv==12.1.1
 whitenoise==1.0.6
