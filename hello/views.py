@@ -6,7 +6,7 @@ from .models import Stars
 
 import requests
 import os
-import scipy
+import scipy, numpy
 
 # Create your views here.
 def index(request):
@@ -43,7 +43,40 @@ def __get_database():
 
     return star_list
 
-#def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list):
+def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list):
+    phi_view = 45
+    
+    [xshift,yshift,zshift] = sphere2cart(dist,ra1,dec1)     # calculate cartesian shift
+    star_cart = [sphere2cart(x[2],x[0],x[1]) for x in star_list]    # calculate star cartesian from spherical
+    star_cart = [[x[0]-xshift, x[1]-yshift, x[2]-zshift] for x in star_cart]   # perform cartesian shift
+    
+    star_cart = [scipy.transpose(zrotate(ra2)*scipy.array([[x[0]], [x[1]], [x[2]]])) for x in star_cart]    # Orientation Rotations
+    star_cart = [scipy.transpose(yrotate(dec2)*scipy.array([[x[0]], [x[1]], [x[2]]])) for x in star_cart]
+    star_cart = [scipy.transpose(xrotate(tilt)*scipy.array([[x[0]], [x[1]], [x[2]]])) for x in star_cart]
+    
+    star_sphere = [cart2sphere(x[0],x[1],x[2]) for x in star_cart]  # transform back to spherical
+    
+    star_disp = [];
+    for ind in range(len(star_list)):
+        if star_sphere[ind][2] > (90-phi_view):
+            rdisp = (90-star_sphere[ind][2])/phi_view
+            thetadisp = star_sphere[ind][1]
+            xdisp = rdisp*scipy.cos(thetadisp)
+            ydisp = rdisp*scipy.sin(thetadisp)
+            bright = scipy.log10(-star_list[ind][3]/2.5)*scipy.power(star_list[ind][0],2)/scipy.power(star_sphere[ind][0],2)
+            star_disp.append([xdisp, ydisp, bright])
+    
+    return star_disp
+        
+    
+def xrotate(theta):
+    return scipy.array([[1, 0, 0], [0, scipy.cos(theta), -scipy.sin(theta)], [0, scipy.sin(theta), scipy.cos(theta)]])
+
+def yrotate(theta):
+    return scipy.array([[scipy.cos(theta), 0, -scipy.sin(theta)], [0, 1, 0], [scipy.cos(theta), 0, scipy.sin(theta)]])    
+
+def zrotate(theta):
+    return scipy.array([[scipy.cos(theta), -scipy.sin(theta), 0], [scipy.sin(theta), scipy.cos(theta), 0], [0, 0, 1]])
     
 def sphere2cart(r,theta,phi):
     x = r*scipy.cos(theta)*scipy.cos(phi)
