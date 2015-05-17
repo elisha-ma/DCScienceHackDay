@@ -22,7 +22,7 @@ def input(request):
     dec2 = request.POST.get('dec2')    
     
     star = Stars.objects.get(starid=1)
-    context = {'ra1':ra1, 'dec1':dec1, 'dist':dist, 'ra2':ra2, 'dec2':dec2} 
+    context = {'ra1':ra1, 'dec1':dec1, 'dist':dist, 'ra2':ra2, 'dec2':dec2, 'name':star.propername} 
     return render(request, 'result.html', context)
 
 def db(request):
