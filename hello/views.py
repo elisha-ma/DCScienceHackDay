@@ -6,6 +6,7 @@ from .models import Stars
 
 import requests
 import os
+import scipy
 
 # Create your views here.
 def index(request):
@@ -22,9 +23,25 @@ def input(request):
     dec2 = request.POST.get('dec2')    
     tilt = request.POST.get('tilt')
     
-    star = Stars.objects.get(starid=1)
-    context = {'ra1':ra1, 'dec1':dec1, 'dist':dist, 'ra2':ra2, 'dec2':dec2, 'tilt':tilt, 'name':star.propername} 
+    #star = Stars.objects.get(starid=1)
+    star_list = __get_database()
+    
+    coordinates_list = [(0, 0), (50, 50), (100, 100)]
+    context = {'ra1':len(star_list), 'dec1':dec1, 'dist':dist, 'ra2':ra2, 'dec2':dec2, 'tilt':tilt, "coordinates_list":coordinates_list} 
     return render(request, 'result.html', context)
+
+def __get_database():
+    all_stars = Stars.objects.all()
+    
+    star_list = []
+    count = 0
+    for star in all_stars:
+        star_list.append([star.ra, star.dec, star.distance, star.absmag])
+        count = count+1
+        if count == 10:
+            break
+
+    return star_list
 
 def db(request):
 

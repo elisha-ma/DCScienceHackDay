@@ -11,3 +11,10 @@
     <div>
         <label>Name: {{ name }}</label>
     </div>
+
+    <svg width="512" height="512">
+        <rect width="512" height="512" style="fill:rgb(0,0,0);stroke-width:3;stroke:rgb(0,0,0)"/>
+        {% for tuple in coordinates_list %}
+            <circle cx="{{ tuple.0 }}" cy="{{ tuple.1}} " r="40" fill="red" />
+        {% endfor %}
+    </svg> 
