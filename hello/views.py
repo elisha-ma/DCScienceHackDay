@@ -86,7 +86,8 @@ def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list, in_const):
     
     star_disp = [];
     for ind in range(len(star_list)):
-        phi = scipy.arcsin(star_cart[ind][0]/star_sphere[ind][0])
+        phi = scipy.arcsin(star_cart[ind].item(0)/star_sphere[ind][0][0])
+        print "PHI: " + phi
         if phi > (90 * scipy.pi / 180 - phi_view):
             rdisp = (90 * scipy.pi / 180 - phi)/phi_view
             thetadisp = scipy.arctan2(star_cart[ind][2],star_cart[ind][1])
