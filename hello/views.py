@@ -26,8 +26,10 @@ def input(request):
     #star = Stars.objects.get(starid=1)
     star_list = __get_database()
     
+    [x,y,z] = sphere2cart(dist,ra1,dec1)
+    
     coordinates_list = [(0, 0), (50, 50), (100, 100)]
-    context = {'ra1':len(star_list), 'dec1':dec1, 'dist':dist, 'ra2':ra2, 'dec2':dec2, 'tilt':tilt, "coordinates_list":coordinates_list} 
+    context = {'ra1':x, 'dec1':y, 'dist':z, 'ra2':ra2, 'dec2':dec2, 'tilt':tilt, "coordinates_list":coordinates_list} 
     return render(request, 'result.html', context)
 
 def __get_database():
@@ -40,6 +42,20 @@ def __get_database():
         count = count+1
 
     return star_list
+
+def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list):
+    
+def sphere2cart(r,theta,phi):
+    x = r*scipy.cos(theta)*scipy.cos(phi);
+    y = r*scipy.sin(theta)*scipy.cos(phi);
+    z = r*scipy.sin(phi);
+    return [x, y, z]
+
+def cart2sphere(x,y,z):
+    r = scipy.sqrt(scipy.power(x,2)+scipy.power(y,2)+scipy.power(z,2))
+    phi = scipy.arcsin(z/r);
+    theta = scipy.arctan2(y,x);
+    return [r, theta, phi]
 
 def db(request):
 
