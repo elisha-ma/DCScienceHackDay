@@ -38,8 +38,6 @@ def __get_database():
     for star in all_stars:
         star_list.append([star.ra, star.dec, star.distance, star.absmag])
         count = count+1
-        if count == 10:
-            break
 
     return star_list
 
