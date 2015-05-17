@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.core.urlresolvers import reverse
-from .models import StarData
+from .models import Stars
 
 import requests
 import os
@@ -21,7 +21,9 @@ def input(request):
     ra2 = request.POST.get('ra2')
     dec2 = request.POST.get('dec2')    
     
-    return render(request, 'result.html', {'ra1':ra1, 'dec1':dec1, 'dist':dist, 'ra2':ra2, 'dec2':dec2})
+    star = Stars.objects.get(starid=1)
+    context = {'ra1':ra1, 'dec1':dec1, 'dist':dist, 'ra2':ra2, 'dec2':dec2} 
+    return render(request, 'result.html', context)
 
 def db(request):
 
