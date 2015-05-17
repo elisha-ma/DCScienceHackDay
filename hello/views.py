@@ -19,12 +19,12 @@ def index(request):
     return render(request, 'stars.html', context)
 
 def input(request):
-    ra1 = float(request.POST.get('ra1'), 0) * scipy.pi / 180
-    dec1 = float(request.POST.get('dec1'), 0) * scipy.pi / 180
-    dist = float(request.POST.get('dist'), 0)
-    ra2 = float(request.POST.get('ra2'), 0) * scipy.pi / 180
-    dec2 = float(request.POST.get('dec2'), 0) * scipy.pi / 180
-    tilt = float(request.POST.get('tilt'), 0) * scipy.pi / 180
+    ra1 = float(request.POST.get('ra1', 0)) * scipy.pi / 180
+    dec1 = float(request.POST.get('dec1', 0)) * scipy.pi / 180
+    dist = float(request.POST.get('dist', 0))
+    ra2 = float(request.POST.get('ra2', 0)) * scipy.pi / 180
+    dec2 = float(request.POST.get('dec2', 0)) * scipy.pi / 180
+    tilt = float(request.POST.get('tilt', 0)) * scipy.pi / 180
     const = request.POST.get('constellation')
     
     print ra1
