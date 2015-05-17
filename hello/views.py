@@ -15,7 +15,7 @@ def index(request):
     #context = RequestContext(request,{})
     #return HttpResponse(template.render(context))
     
-    context = {"constellations" : sort(__get_constellations())}
+    context = {"constellations" : sorted(__get_constellations())}
     return render(request, 'stars.html', context)
 
 def input(request):
