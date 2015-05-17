@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.core.urlresolvers import reverse
 from operator import itemgetter
-#from .models import Stars
+from .models import Stars
 
 import requests
 import os
