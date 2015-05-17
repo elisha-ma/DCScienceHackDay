@@ -15,7 +15,7 @@ def index(request):
     #context = RequestContext(request,{})
     #return HttpResponse(template.render(context))
     
-    context = {"constellations" : __get_constellations()}
+    context = {"constellations" : sort(__get_constellations())}
     return render(request, 'stars.html', context)
 
 def input(request):
@@ -61,7 +61,7 @@ def adjust_for_image(star_disp, in_const):
     visible_flux = .01
     visible_rgb = 10
     if (in_const):
-        return [[x[0] * 256 + 256, 256 - x[1] * 256, int(scipy.maximum(scipy.minimum(x[2]/visible_flux*visible_rgb,255), 30)) ] for x in star_disp]
+        return [[x[0] * 256 + 256, 256 - x[1] * 256, int(scipy.maximum(scipy.minimum(x[2]/visible_flux*visible_rgb,255), 200)) ] for x in star_disp]
 
     return [[x[0] * 256 + 256, 256 - x[1] * 256, int(scipy.minimum(x[2]/visible_flux*visible_rgb,255)) ] for x in star_disp]
 
