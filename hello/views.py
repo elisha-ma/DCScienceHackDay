@@ -43,11 +43,11 @@ def __get_stars():
 
 def __get_constellations():
     all_stars = Stars.objects.all()
-    return [star.constellation for star in all_stars]
+    return list(set([star.constellation for star in all_stars]))
 
 def adjust_for_image(star_disp):
     visible_flux = .01
-    visible_rgb = 10
+    visible_rgb = 30
     return [[x[0] * 256 + 256, 256 - x[1] * 256, scipy.int8(scipy.minimum(x[2]/visible_flux*visible_rgb,255)) ] for x in star_disp]
 
 def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list):
@@ -74,7 +74,8 @@ def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list):
             xdisp = rdisp*scipy.cos(thetadisp)
             ydisp = rdisp*scipy.sin(thetadisp)
             bright = scipy.power(10,star_list[ind][3]/-2.5)*scipy.power(star_list[ind][0],2)/scipy.power(star_sphere[ind][0],2)
-            star_disp.append([xdisp, ydisp, bright])
+            if bright>.01:
+                star_disp.append([xdisp, ydisp, bright])
     
     return star_disp
         

@@ -27,11 +27,15 @@
         <input name="tilt" type="number" step="any" id="tilt"/>
     </div>
     <h2>Pick a Constellation! (optional)</h2>
-    <select>
-        <option selected disabled hidden value=''></option>
-        {% for constellation in constellations %}
-        <option value="{{ constellation }}">{{ constellation }}</option>
-        {% endfor %}
-    </select>
-    <input name="send" type="submit" value="Send!"/>
+    <div>
+        <select>
+            <option selected disabled hidden value=''></option>
+            {% for constellation in constellations %}
+            <option value="{{ constellation }}">{{ constellation }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <input name="send" type="submit" value="Send!"/>
+    </div>
 </form>
