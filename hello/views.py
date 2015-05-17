@@ -24,27 +24,30 @@ def input(request):
     dec2 = float(request.POST.get('dec2')) * scipy.pi / 180
     tilt = float(request.POST.get('tilt')) * scipy.pi / 180
     
-    star_list = __get_database()
+    (star_list, constellations) = __get_database()
     
     star_disp = calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list)
     coordinates_list = adjust_for_image(star_disp)
+    constellations = star_
     
     #coordinates_list = [(0, 0), (50, 50), (100, 100)]
     #context = {'ra1':ra1, 'dec1':dec1, 'dist':dist, 'ra2':ra2, 'dec2':dec2, 'tilt':tilt, "coordinates_list":coordinates_list}
     coordinates_list = sorted(coordinates_list, key=itemgetter(2)) 
-    context = {"coordinates_list":coordinates_list}
+    context = {"coordinates_list":coordinates_list, "constellations":constellations}
     return render(request, 'result.html', context)
 
 def __get_database():
     all_stars = Stars.objects.all()
     
     star_list = []
+    constellations = []
     count = 0
     for star in all_stars:
         star_list.append([star.ra, star.dec, star.distance, star.absmag])
+        constellations.append(star.constellaion)
         count = count+1
 
-    return star_list
+    return (star_list, constellations)
 
 def adjust_for_image(star_disp):
     visible_flux = .01
