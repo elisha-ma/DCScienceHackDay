@@ -27,19 +27,21 @@ def input(request):
     tilt = float(request.POST.get('tilt', 0)) * scipy.pi / 180
     const = request.POST.get('constellation')
 
-    print const
-    
     star_list = __get_stars()
     stars_in_const = __get_stars_in_constellation(const)
-    print stars_in_const
     
-    star_disp = calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list)
+    # Get Image info for all stars within view
+    star_disp = calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list, False)
     coordinates_list = adjust_for_image(star_disp)
+    
+    #Get image info for all stars in constellation
+    const_disp = calc_view(ra1, dec1, dist, ra2, dec2, tilt, stars_in_const, True)
+    const_coord_list = adjust_for_image(const_disp)
     
     #coordinates_list = [(0, 0), (50, 50), (100, 100)]
     #context = {'ra1':ra1, 'dec1':dec1, 'dist':dist, 'ra2':ra2, 'dec2':dec2, 'tilt':tilt, "coordinates_list":coordinates_list}
     coordinates_list = sorted(coordinates_list, key=itemgetter(2)) 
-    context = {"coordinates_list":coordinates_list}
+    context = {"coordinates_list":coordinates_list, "const_coordinates":const_coord_list}
     return render(request, 'result.html', context)
 
 def __get_stars_in_constellation(const_filt):
@@ -54,15 +56,18 @@ def __get_constellations():
     all_stars = Stars.objects.all()
     return list(set([star.constellation for star in all_stars]))
 
-def adjust_for_image(star_disp):
+def adjust_for_image(star_disp, in_const):
     visible_flux = .01
     visible_rgb = 10
+    if (in_const):
+        return [[x[0] * 256 + 256, 256 - x[1] * 256, int(scipy.maximum(scipy.minimum(x[2]/visible_flux*visible_rgb,255), 30)) ] for x in star_disp]
+
     return [[x[0] * 256 + 256, 256 - x[1] * 256, int(scipy.minimum(x[2]/visible_flux*visible_rgb,255)) ] for x in star_disp]
 
 def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list):
     phi_view = 45 * scipy.pi / 180
     
-    [xshift,yshift,zshift] = sphere2cart(dist,ra1,dec1)     # calculate cartesian shift
+    [xshift,yshift,zshift] = sphere2cart(dist,ra1,dec1, in_const)     # calculate cartesian shift
     star_cart = [sphere2cart(x[2],x[0],x[1]) for x in star_list]    # calculate star cartesian from spherical
     star_cart = [[x[0]-xshift, x[1]-yshift, x[2]-zshift] for x in star_cart]   # perform cartesian shift
     star_cart = [scipy.transpose(scipy.matrix(x)) for x in star_cart]
@@ -84,7 +89,7 @@ def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list):
             ydisp = rdisp*scipy.sin(thetadisp)
             bright = scipy.power(10,star_list[ind][3]/-2.5)*scipy.power(star_list[ind][0],2)/scipy.power(star_sphere[ind][0],2)
             #print bright
-            if bright>.01:
+            if bright>.01 || in_const:
                 star_disp.append([xdisp, ydisp, bright])
     
     return star_disp
