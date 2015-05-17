@@ -74,6 +74,7 @@ def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list):
             xdisp = rdisp*scipy.cos(thetadisp)
             ydisp = rdisp*scipy.sin(thetadisp)
             bright = scipy.power(10,star_list[ind][3]/-2.5)*scipy.power(star_list[ind][0],2)/scipy.power(star_sphere[ind][0],2)
+            print {bright}
             if bright>.01:
                 star_disp.append([xdisp, ydisp, bright])
     
