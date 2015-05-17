@@ -32,11 +32,11 @@ def input(request):
     
     # Get Image info for all stars within view
     star_disp = calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list, False)
-    coordinates_list = adjust_for_image(star_disp)
+    coordinates_list = adjust_for_image(star_disp, False)
     
     #Get image info for all stars in constellation
     const_disp = calc_view(ra1, dec1, dist, ra2, dec2, tilt, stars_in_const, True)
-    const_coord_list = adjust_for_image(const_disp)
+    const_coord_list = adjust_for_image(const_disp, True)
     
     #coordinates_list = [(0, 0), (50, 50), (100, 100)]
     #context = {'ra1':ra1, 'dec1':dec1, 'dist':dist, 'ra2':ra2, 'dec2':dec2, 'tilt':tilt, "coordinates_list":coordinates_list}
