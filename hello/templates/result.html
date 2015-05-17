@@ -1,20 +1,7 @@
 <h1>Result!</h1>
-    <ul>
-        <li>{{ ra1 }} </li>
-        <li>{{ dec1 }} </li>
-        <li>{{ dist }} </li>
-        <li>{{ ra2 }} </li>
-        <li>{{ dec2 }} </li>
-        <li>{{ tilt }} </li>
-    </ul>
-    
-    <div>
-        <label>Name: {{ name }}</label>
-    </div>
-
     <svg width="512" height="512">
         <rect width="512" height="512" style="fill:rgb(0,0,0);stroke-width:3;stroke:rgb(0,0,0)"/>
         {% for tuple in coordinates_list %}
-            <circle cx="{{ tuple.0 }}" cy="{{ tuple.1}} " r="40" fill="red" />
+            <circle cx="{{ tuple.0 }}" cy="{{ tuple.1}} " r="2" style="fill:rgb({{ tuple.2}}, {{ tuple.2}}, {{tuple.2}});" />
         {% endfor %}
     </svg> 
