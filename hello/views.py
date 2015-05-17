@@ -28,7 +28,6 @@ def input(request):
     
     star_disp = calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list)
     coordinates_list = adjust_for_image(star_disp)
-    constellations = star_
     
     #coordinates_list = [(0, 0), (50, 50), (100, 100)]
     #context = {'ra1':ra1, 'dec1':dec1, 'dist':dist, 'ra2':ra2, 'dec2':dec2, 'tilt':tilt, "coordinates_list":coordinates_list}
