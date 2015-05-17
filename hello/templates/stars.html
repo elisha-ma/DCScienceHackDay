@@ -28,7 +28,7 @@
     </div>
     <h2>Pick a Constellation! (optional)</h2>
     <div>
-        <select>
+        <select id="constellation">
             <option selected disabled hidden value=''></option>
             {% for constellation in constellations %}
             <option value="{{ constellation }}">{{ constellation }}</option>
