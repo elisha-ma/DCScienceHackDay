@@ -43,18 +43,18 @@ def __get_database():
 
     return star_list
 
-def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list):
+#def calc_view(ra1,dec1,dist,ra2,dec2,tilt,star_list):
     
 def sphere2cart(r,theta,phi):
-    x = r*scipy.cos(theta)*scipy.cos(phi);
-    y = r*scipy.sin(theta)*scipy.cos(phi);
-    z = r*scipy.sin(phi);
+    x = r*scipy.cos(theta)*scipy.cos(phi)
+    y = r*scipy.sin(theta)*scipy.cos(phi)
+    z = r*scipy.sin(phi)
     return [x, y, z]
 
 def cart2sphere(x,y,z):
     r = scipy.sqrt(scipy.power(x,2)+scipy.power(y,2)+scipy.power(z,2))
-    phi = scipy.arcsin(z/r);
-    theta = scipy.arctan2(y,x);
+    phi = scipy.arcsin(z/r)
+    theta = scipy.arctan2(y,x)
     return [r, theta, phi]
 
 def db(request):
